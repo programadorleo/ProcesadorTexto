@@ -4,7 +4,7 @@ import javax.swing.JTextArea;
 public class Principal {
 
 }*/
-
+/*Modelo chequear */
 
 
 import java.awt.Color;
@@ -32,12 +32,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.Caret;
 import javax.swing.text.DefaultEditorKit;
 
-/**
- *
- * @author Julian Delgado Castillo
- * @carnet 1690-07-9127
- */
-public class Principal extends javax.swing.JFrame {
+
+public class Modelo extends javax.swing.JFrame {
 
     //Variables para los Combos de formato de letra
     JComboBox TipoLetra;
@@ -45,7 +41,7 @@ public class Principal extends javax.swing.JFrame {
     String nombreFuentes[];
     String tamanoFuente[];
     
-    public Principal() {
+    public Modelo() {
         initComponents();
         
         /*PROPIEDADES DE FORMULARIO */
@@ -188,9 +184,9 @@ public class Principal extends javax.swing.JFrame {
                 // AreaTexto.setText(AreaTexto.toString());
                 leer.close(); //Se cierra lectura del fichero
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex); //Toda va dentro de un Try Catch por cualquier error en la apertur y cierre del fichero.
+                Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex); //Toda va dentro de un Try Catch por cualquier error en la apertur y cierre del fichero.
             } catch (IOException ex) {
-                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -214,7 +210,7 @@ public class Principal extends javax.swing.JFrame {
                 escritor.print(AreaTexto.getText());                //Se le escribe el texto contenido en AreaTexto
                 escritor.close();                                   //Se cierra el fichero.
             } catch (FileNotFoundException ex) {
-                Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex); //Toda va dentro de un Try Catch por cualquier error en la apertur y cierre del fichero.
+                Logger.getLogger(Modelo.class.getName()).log(Level.SEVERE, null, ex); //Toda va dentro de un Try Catch por cualquier error en la apertur y cierre del fichero.
             }
         }
         }
@@ -644,20 +640,20 @@ public class Principal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Modelo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Modelo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Modelo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Modelo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Principal().setVisible(true);
+                new Modelo().setVisible(true);
             }
         });
     }
