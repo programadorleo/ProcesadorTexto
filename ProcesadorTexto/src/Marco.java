@@ -11,7 +11,12 @@ public class Marco extends JFrame{
 	public Marco() {
 		
 		  setBounds(inicioX,inicioY,largoVentana,altoVentana);
+	  		  
 		  add(new Lamina());
+		  
+		  setVisible(true);
+		  
+		  setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		  
 		 }
 
