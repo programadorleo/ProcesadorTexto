@@ -43,7 +43,7 @@ public class Lamina extends JPanel {
 	private class LaminaBarra extends JPanel {
 
 		private JMenuBar Barra;
-		private JMenu Archivo, Edicion, Fuente, Ver, Ayuda;
+		private JMenu Archivo, Edicion, Fuente,Ayuda;
 		private JMenuItem archivoNuevo, archivoAbrir, archivoGuardar, archivoGuardarComo, archivoConfigurarPagina,
 				archivoImprimir, salir, edicionDeshacer, edicionCortar, edicionCopiar, edicionPegar, edicionEliminar,
 				edicionBuscar, edicionBuscarSiguiente, edicionReemplazar, edicionIrA, edicionSeleccionarTodo,
@@ -61,7 +61,6 @@ public class Lamina extends JPanel {
 			Archivo = new JMenu("Archivo");
 			Edicion = new JMenu("Edición");
 			Fuente = new JMenu("Fuente");
-			Ver = new JMenu("Ver");
 			Ayuda = new JMenu("Ayuda");
 
 			archivoNuevo = new JMenuItem("Nuevo");
@@ -142,8 +141,7 @@ public class Lamina extends JPanel {
 
 			Barra.add(Archivo);
 			Barra.add(Edicion);
-			Barra.add(Fuente);
-			Barra.add(Ver);
+			Barra.add(Fuente);			
 			Barra.add(Ayuda);
 
 			add(Barra);
