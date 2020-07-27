@@ -1,13 +1,17 @@
 package principal;
 
 import java.awt.*;
+
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.Date;
 
 import javax.swing.*;
 import java.awt.Font;
 
-public class Lamina extends JPanel {
+public class Lamina extends JPanel { // Lamina
 
 	private JTextPane areaTexto;
 
@@ -27,7 +31,7 @@ public class Lamina extends JPanel {
 
 	}
 
-	private class LaminaMenu extends JPanel {
+	private class LaminaMenu extends JPanel { // clase lamina menu
 
 		private JMenuBar barra;
 
@@ -38,7 +42,7 @@ public class Lamina extends JPanel {
 				edicionBuscar, edicionBuscarSiguiente, edicionReemplazar, edicionIrA, edicionSeleccionarTodo, HoraFecha,
 				arial, courier, verdana, normal, negrita, cursiva, tam_8, tam_10, tam_14, tam_20, tam_28;
 
-		public LaminaMenu() {
+		public LaminaMenu() { // constructor laminaMenu
 
 			barra = new JMenuBar();
 
@@ -124,19 +128,19 @@ public class Lamina extends JPanel {
 			fuenteTamano.add(tam_20);
 			fuenteTamano.add(tam_28);
 
-			arial.addActionListener(new GestionaEventos("letra","Arial", 9, 10));
-			courier.addActionListener(new GestionaEventos("letra","Courier", 9, 10));
-			verdana.addActionListener(new GestionaEventos("letra","Verdana", 9, 10));
+			arial.addActionListener(new GestionaEventos("letra", "Arial", 9, 10));
+			courier.addActionListener(new GestionaEventos("letra", "Courier", 9, 10));
+			verdana.addActionListener(new GestionaEventos("letra", "Verdana", 9, 10));
 
-			normal.addActionListener(new GestionaEventos("fuente","", Font.PLAIN, 1));
-			negrita.addActionListener(new GestionaEventos("fuente","", Font.BOLD, 1));
-			cursiva.addActionListener(new GestionaEventos("fuente","", Font.ITALIC, 1));
+			normal.addActionListener(new GestionaEventos("fuente", "", Font.PLAIN, 1));
+			negrita.addActionListener(new GestionaEventos("fuente", "", Font.BOLD, 1));
+			cursiva.addActionListener(new GestionaEventos("fuente", "", Font.ITALIC, 1));
 
-			tam_8.addActionListener(new GestionaEventos("tamano","", Font.PLAIN, 8));
-			tam_10.addActionListener(new GestionaEventos("tamano","", Font.PLAIN, 10));
-			tam_14.addActionListener(new GestionaEventos("tamano","", Font.PLAIN, 14));
-			tam_20.addActionListener(new GestionaEventos("tamano","", Font.PLAIN, 20));
-			tam_28.addActionListener(new GestionaEventos("tamano","", Font.PLAIN, 28));
+			tam_8.addActionListener(new GestionaEventos("tamano", "", Font.PLAIN, 8));
+			tam_10.addActionListener(new GestionaEventos("tamano", "", Font.PLAIN, 10));
+			tam_14.addActionListener(new GestionaEventos("tamano", "", Font.PLAIN, 14));
+			tam_20.addActionListener(new GestionaEventos("tamano", "", Font.PLAIN, 20));
+			tam_28.addActionListener(new GestionaEventos("tamano", "", Font.PLAIN, 28));
 
 			salir.addActionListener(new ActionListener() {
 
@@ -148,6 +152,36 @@ public class Lamina extends JPanel {
 
 			});
 
+			archivoAbrir.addActionListener(new ActionListener() {
+				JFileChooser seleccionado = new JFileChooser();
+				File archivo;
+				byte[] bytesImg;
+				GestionArchivo gestion = new GestionArchivo();
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					if (seleccionado.showDialog(archivoAbrir, "Abrir archivo") == JFileChooser.APPROVE_OPTION) {
+						archivo = seleccionado.getSelectedFile();
+						if (archivo.canRead()) {
+							if (archivo.getName().endsWith("txt")) {
+								String contenido = gestion.abrirArchivoTexto(archivo);
+								areaTexto.setText(contenido);
+							} else {
+								if (archivo.getName().endsWith("jpg") || archivo.getName().endsWith("png")
+										|| archivo.getName().endsWith("gif")) {
+									bytesImg = gestion.abrirImagen(archivo);
+									// lblImagen.setIcon(new ImagenIcon(bytesImg));
+								} else {
+									JOptionPane.showMessageDialog(null, "Por favor seleccione un archivo de texto");
+								}
+							}
+						}
+					}
+
+				}
+
+			});
+
 			barra.add(archivo);
 			barra.add(edicion);
 			barra.add(fuente);
@@ -155,55 +189,53 @@ public class Lamina extends JPanel {
 
 			add(barra);
 
+		} // constructor laminamenu
+
+	} // fin clase laminamenu
+
+	private class GestionaEventos implements ActionListener {
+
+		String tipoTexto, menu;
+
+		int estiloLetra, tamanoLetra;
+
+		GestionaEventos(String elemento, String text, int estLetra, int tamLetra) {
+
+			tipoTexto = text;
+			estiloLetra = estLetra;
+			tamanoLetra = tamLetra;
+			menu = elemento;
 		}
 
-		private class GestionaEventos implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
 
-			String tipoTexto, menu;
+			letras = areaTexto.getFont();
 
-			int estiloLetra, tamanoLetra;
+			if (menu.equals("letra")) {
 
-			GestionaEventos(String elemento,String text, int estLetra, int tamLetra) {
+				estiloLetra = letras.getStyle();
 
-				tipoTexto = text;
-				estiloLetra = estLetra;
-				tamanoLetra = tamLetra;
-			    menu=elemento;
-			}
+				tamanoLetra = letras.getSize();
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				
+			} else if (menu.equals("fuente")) {
 
-				letras = areaTexto.getFont();
-				
-				if(menu.equals("letra")) {
-					
-					estiloLetra=letras.getStyle();
-					
-					tamanoLetra=letras.getSize();
-					
-				}else if(menu.equals("fuente")){
-					
-					tipoTexto= letras.getFontName();
-					
-					tamanoLetra=letras.getSize();
-					
-				
-				}else if(menu.equals("tamano")) {
-					
-					estiloLetra=letras.getStyle();
-					
-					tipoTexto= letras.getFontName();
-					
-				}
+				tipoTexto = letras.getFontName();
 
-				areaTexto.setFont(new Font(tipoTexto, estiloLetra, tamanoLetra));
+				tamanoLetra = letras.getSize();
+
+			} else if (menu.equals("tamano")) {
+
+				estiloLetra = letras.getStyle();
+
+				tipoTexto = letras.getFontName();
 
 			}
+
+			areaTexto.setFont(new Font(tipoTexto, estiloLetra, tamanoLetra));
 
 		}
 
 	}
 
-}
+} // fin clase lamina principal
