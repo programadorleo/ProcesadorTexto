@@ -31,23 +31,21 @@ public class Lamina extends JPanel { // Lamina
 
 	}
 
-	private class LaminaMenu extends JPanel { // clase lamina menu
+	private class LaminaMenu extends JPanel {
 
 		private JMenuBar barra;
 
 		private JMenu archivo, edicion, fuente, ayuda;
 		private JMenu fuenteLetra, fuenteEstiloLetra, fuenteTamano, fuenteColor;
 
-		private JMenuItem archivoNuevo, archivoAbrir, archivoGuardar, archivoGuardarComo, archivoConfigurarPagina,
-				archivoImprimir, salir;
-
+		private JMenuItem archivoNuevo, archivoAbrir, archivoGuardar, archivoGuardarComo, archivoCerrar,
+				archivoConfigurarPagina, archivoImprimir, salir;
 		private JMenuItem edicionDeshacer, edicionCortar, edicionCopiar, edicionPegar, edicionEliminar, edicionBuscar,
 				edicionBuscarSiguiente, edicionReemplazar, edicionIrA, edicionSeleccionarTodo, HoraFecha;
-
 		private JMenuItem arial, courier, verdana, normal, negrita, cursiva, tam_8, tam_10, tam_14, tam_20, tam_28,
 				rojo, verde, azul, negro;
 
-		public LaminaMenu() { // constructor laminaMenu
+		public LaminaMenu() {
 
 			instanciarObjetos();
 
@@ -55,7 +53,7 @@ public class Lamina extends JPanel { // Lamina
 
 			gestionMenu();
 
-		} // constructor laminamenu
+		}
 
 		public void instanciarObjetos() {
 
@@ -69,6 +67,7 @@ public class Lamina extends JPanel { // Lamina
 			archivoNuevo = new JMenuItem("Nuevo");
 			archivoAbrir = new JMenuItem("Abrir");
 			archivoGuardar = new JMenuItem("Guardar");
+			archivoCerrar = new JMenuItem("Cerrar");
 			archivoGuardarComo = new JMenuItem("Guardar Como");
 			archivoConfigurarPagina = new JMenuItem("Configurar Pagina");
 			archivoImprimir = new JMenuItem("Imprimir");
@@ -114,6 +113,7 @@ public class Lamina extends JPanel { // Lamina
 			archivo.add(archivoNuevo);
 			archivo.add(archivoAbrir);
 			archivo.add(archivoGuardar);
+			archivo.add(archivoCerrar);
 			archivo.add(archivoGuardarComo);
 			archivo.add(archivoConfigurarPagina);
 			archivo.add(archivoImprimir);
@@ -175,25 +175,45 @@ public class Lamina extends JPanel { // Lamina
 			GestionArchivo gestion = new GestionArchivo();
 
 			JFileChooser seleccionado = new JFileChooser();
-
-			File archivo = seleccionado.getSelectedFile();
-
-			archivoGuardar.addActionListener(new ActionListener() {
+			
+			
+			
+			archivoNuevo.addActionListener(new ActionListener() {
+				
+				File archivo;
 
 				@Override
-				public void actionPerformed(ActionEvent arg0) {
+				public void actionPerformed(ActionEvent e) {
+					
+					if (seleccionado.showDialog(archivoNuevo, "Archivo nuevo") == JFileChooser.APPROVE_OPTION) {
 
-					gestion.guardarArchivoTexto(archivo, areaTexto.getText());
+						archivo = seleccionado.getSelectedFile();
 
+						gestion.setArchivo(archivo);
+
+						if (archivo.canRead()) {
+
+							if (archivo.getName().endsWith("txt")) {
+
+								String contenido = gestion.abrirArchivoTexto();
+
+								areaTexto.setText(contenido);
+
+							}
+						}
+					}
+					
+					
 				}
-
+				
+				
 			});
+			
+			
 
 			archivoAbrir.addActionListener(new ActionListener() {
 
 				File archivo;
-
-				byte[] bytesImg;
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
@@ -202,27 +222,16 @@ public class Lamina extends JPanel { // Lamina
 
 						archivo = seleccionado.getSelectedFile();
 
+						gestion.setArchivo(archivo);
+
 						if (archivo.canRead()) {
 
 							if (archivo.getName().endsWith("txt")) {
 
-								String contenido = gestion.abrirArchivoTexto(archivo);
+								String contenido = gestion.abrirArchivoTexto();
 
 								areaTexto.setText(contenido);
 
-							} else {
-
-								if (archivo.getName().endsWith("jpg") || archivo.getName().endsWith("png")
-
-										|| archivo.getName().endsWith("gif")) {
-
-									bytesImg = gestion.abrirImagen(archivo);
-
-									// lblImagen.setIcon(new ImagenIcon(bytesImg));
-								} else {
-
-									JOptionPane.showMessageDialog(null, "Por favor seleccione un archivo de texto");
-								}
 							}
 						}
 					}
@@ -231,7 +240,40 @@ public class Lamina extends JPanel { // Lamina
 
 			});
 
+			archivoGuardar.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+
+					gestion.guardarArchivoTexto(areaTexto.getText());
+
+				}
+
+			});
+
+			archivoCerrar.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+
+					int opcion = JOptionPane.showConfirmDialog(null, "Desea guardar los cambios");
+					// 0=si 1=no 2=cancelar
+
+					if (opcion == 0) {
+
+						gestion.guardarArchivoTexto(areaTexto.getText());
+
+					}
+
+					areaTexto.setText("");
+
+				}
+
+			});
+
 		}
+		
+		
 
 		public void gestionEdicion() {
 		}
