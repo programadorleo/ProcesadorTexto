@@ -11,12 +11,12 @@ public class GestionArchivo {
 	private File archivo;
 
 	public GestionArchivo() {
-	
+
 	}
 
 	public String abrirArchivoTexto() {
 
-		String contenido="";
+		String contenido = "";
 
 		try {
 
@@ -45,9 +45,6 @@ public class GestionArchivo {
 		return contenido;
 	}
 
-	
-
-
 	public String guardarArchivoTexto(String contenido) {
 
 		String respuesta = null;
@@ -68,9 +65,7 @@ public class GestionArchivo {
 
 		return respuesta;
 	}
-	
-	
-	
+
 	public File getArchivo() {
 		return archivo;
 	}
