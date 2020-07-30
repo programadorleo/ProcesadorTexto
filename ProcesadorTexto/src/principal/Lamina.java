@@ -11,7 +11,7 @@ import java.util.Date;
 import javax.swing.*;
 import java.awt.Font;
 
-public class Lamina extends JPanel { // Lamina
+public class Lamina extends JPanel {
 
 	private JTextPane areaTexto;
 
@@ -175,16 +175,14 @@ public class Lamina extends JPanel { // Lamina
 			GestionArchivo gestion = new GestionArchivo();
 
 			JFileChooser seleccionado = new JFileChooser();
-			
-			
-			
+
 			archivoNuevo.addActionListener(new ActionListener() {
-				
+
 				File archivo;
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
+
 					if (seleccionado.showDialog(archivoNuevo, "Archivo nuevo") == JFileChooser.APPROVE_OPTION) {
 
 						archivo = seleccionado.getSelectedFile();
@@ -202,14 +200,10 @@ public class Lamina extends JPanel { // Lamina
 							}
 						}
 					}
-					
-					
+
 				}
-				
-				
+
 			});
-			
-			
 
 			archivoAbrir.addActionListener(new ActionListener() {
 
@@ -251,6 +245,26 @@ public class Lamina extends JPanel { // Lamina
 
 			});
 
+			archivoGuardarComo.addActionListener(new ActionListener() {
+
+				File archivo;
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+
+					if (seleccionado.showDialog(archivoAbrir, "Guardar") == JFileChooser.APPROVE_OPTION) {
+
+						archivo = seleccionado.getSelectedFile();
+
+						gestion.setArchivo(archivo);
+
+						gestion.guardarArchivoTexto(areaTexto.getText());
+					}
+
+				}
+
+			});
+
 			archivoCerrar.addActionListener(new ActionListener() {
 
 				@Override
@@ -272,10 +286,70 @@ public class Lamina extends JPanel { // Lamina
 			});
 
 		}
-		
-		
+
+		String textoCopiado;
 
 		public void gestionEdicion() {
+
+			edicionCopiar.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+					int inicio = areaTexto.getSelectionStart();
+
+					int fin = areaTexto.getSelectionEnd();
+
+					String texto = areaTexto.getText();
+
+					textoCopiado = texto.substring(inicio, fin);
+
+				}
+
+			});
+
+			edicionCortar.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+
+					int ini = areaTexto.getSelectionStart();
+
+					int fin = areaTexto.getSelectionEnd();
+
+					String texto = areaTexto.getText();
+
+					textoCopiado = texto.substring(ini, fin);
+
+					String inicioTexto = areaTexto.getText().substring(0, ini);
+
+					String finTexto = areaTexto.getText().substring(fin, texto.length());
+
+					areaTexto.setText(inicioTexto + finTexto);
+
+				}
+
+			});
+
+			edicionPegar.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+
+					int ini = areaTexto.getSelectionStart();
+
+					String inicioTexto = areaTexto.getText().substring(0, ini);
+
+					String finTexto = areaTexto.getText().substring(ini);
+
+					String resultadoTexto = inicioTexto + textoCopiado + finTexto;
+
+					areaTexto.setText(resultadoTexto);
+
+				}
+
+			});
+
 		}
 
 		public void gestionFuente() {
@@ -381,4 +455,4 @@ public class Lamina extends JPanel { // Lamina
 
 	}
 
-} // fin clase lamina principal
+}
