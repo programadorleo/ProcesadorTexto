@@ -378,7 +378,12 @@ public class Lamina extends JPanel {
 			rojo.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					areaTexto.setForeground(Color.red);
+					
+					
+				//Color color= areaTexto.getForeground();
+				  
+					
+				areaTexto.setForeground(Color.red);
 				}
 			});
 
