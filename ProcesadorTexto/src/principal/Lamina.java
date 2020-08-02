@@ -55,7 +55,7 @@ public class Lamina extends JPanel {
 
 		}
 
-		public void instanciarObjetos() {
+		private void instanciarObjetos() {
 
 			barra = new JMenuBar();
 
@@ -108,7 +108,7 @@ public class Lamina extends JPanel {
 
 		}
 
-		public void configurarMenu() {
+		private void configurarMenu() {
 
 			archivo.add(archivoNuevo);
 			archivo.add(archivoAbrir);
@@ -162,7 +162,7 @@ public class Lamina extends JPanel {
 
 		}
 
-		public void gestionMenu() {
+		private void gestionMenu() {
 
 			gestionArchivo();
 			gestionEdicion();
@@ -170,7 +170,7 @@ public class Lamina extends JPanel {
 			gestionAyuda();
 		}
 
-		public void gestionArchivo() {
+		private void gestionArchivo() {
 
 			GestionArchivo gestion = new GestionArchivo();
 
@@ -289,7 +289,7 @@ public class Lamina extends JPanel {
 
 		String textoCopiado;
 
-		public void gestionEdicion() {
+		private void gestionEdicion() {
 
 			edicionCopiar.addActionListener(new ActionListener() {
 
@@ -352,7 +352,7 @@ public class Lamina extends JPanel {
 
 		}
 
-		public void gestionFuente() {
+		private void gestionFuente() {
 
 			arial.addActionListener(new GestionaEventos("letra", "Arial", 9, 10));
 			courier.addActionListener(new GestionaEventos("letra", "Courier", 9, 10));
@@ -378,12 +378,9 @@ public class Lamina extends JPanel {
 			rojo.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					
-					
-				//Color color= areaTexto.getForeground();
-				  
-					
+			   
 				areaTexto.setForeground(Color.red);
+			
 				}
 			});
 
