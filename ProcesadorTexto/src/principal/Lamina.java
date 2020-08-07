@@ -1,15 +1,15 @@
 package principal;
 
-import java.awt.*;
-
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.*;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.Date;
-
 import javax.swing.*;
-import java.awt.Font;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoManager;
+
 
 public class Lamina extends JPanel {
 
@@ -175,6 +175,7 @@ public class Lamina extends JPanel {
 			GestionArchivo gestion = new GestionArchivo();
 
 			JFileChooser seleccionado = new JFileChooser();
+			
 
 			archivoNuevo.addActionListener(new ActionListener() {
 
@@ -295,37 +296,42 @@ public class Lamina extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-
-					int inicio = areaTexto.getSelectionStart();
-
-					int fin = areaTexto.getSelectionEnd();
-
-					String texto = areaTexto.getText();
-
-					textoCopiado = texto.substring(inicio, fin);
-
+					
+					areaTexto.copy();
 				}
 
 			});
+			
+			
+			edicionDeshacer.addActionListener(new ActionListener() {
+			
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					
+				UndoManager undoManager = new UndoManager();
+				
+				areaTexto.getDocument().addUndoableEditListener(undoManager);
+				
+				try {
+				undoManager.undo();
+				    }catch(CannotUndoException cre) {
+				    
+				    	cre.printStackTrace();
+				    }
+				}
+				
+				
+			});
+			
+			
 
 			edicionCortar.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 
-					int ini = areaTexto.getSelectionStart();
-
-					int fin = areaTexto.getSelectionEnd();
-
-					String texto = areaTexto.getText();
-
-					textoCopiado = texto.substring(ini, fin);
-
-					String inicioTexto = areaTexto.getText().substring(0, ini);
-
-					String finTexto = areaTexto.getText().substring(fin, texto.length());
-
-					areaTexto.setText(inicioTexto + finTexto);
+					areaTexto.cut();
 
 				}
 
@@ -335,19 +341,37 @@ public class Lamina extends JPanel {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-
-					int ini = areaTexto.getSelectionStart();
-
-					String inicioTexto = areaTexto.getText().substring(0, ini);
-
-					String finTexto = areaTexto.getText().substring(ini);
-
-					String resultadoTexto = inicioTexto + textoCopiado + finTexto;
-
-					areaTexto.setText(resultadoTexto);
-
+														
+					areaTexto.paste();
+					
 				}
 
+			});
+			
+			
+			edicionSeleccionarTodo.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+				
+					areaTexto.selectAll();
+				}
+				
+				
+			});
+			
+			HoraFecha.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					Date fechaHora = new Date();
+					
+					areaTexto.setText(fechaHora.toString());
+					
+				}
+				
+				
 			});
 
 		}
@@ -378,6 +402,7 @@ public class Lamina extends JPanel {
 			rojo.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
+				
 			   
 				areaTexto.setForeground(Color.red);
 			
