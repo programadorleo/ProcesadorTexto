@@ -1,6 +1,6 @@
 # Procesador de Texto 
 
-Desarrolo de un procesador de texto realizado en java
+Desarrolo de un procesador de texto realizado en java.
 
 
 ## Contendido
